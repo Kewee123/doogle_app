@@ -9,3 +9,4 @@ gem 'rails_12factor', group: :production
 gem 'faraday', '~> 1.0', '>= 1.0.1'
 gem 'factory_bot', '~> 6.1'
 gem 'webmock', '~> 3.11'
+gem 'bootsnap'
