@@ -1,5 +1,5 @@
 class HomePageController < ApplicationController
   def home
-    render html: "hello, world!"
+    render :home
   end
 end
