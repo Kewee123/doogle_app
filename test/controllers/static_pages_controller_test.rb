@@ -17,4 +17,10 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "title", "Home | #{@base_title}"
   end
+  
+  test "should get admin" do
+    get static_pages_admin_url
+    assert_response :success
+    assert_select "title", "Admin | #{@base_title}"
+  end
 end
