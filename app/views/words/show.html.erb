@@ -3,6 +3,14 @@
 <p>
   <strong>Name:</strong>
   <%= @word.name %>
+  <br>
+  <strong> Definitions </strong>
+  
+
+  
+  <%  @definitions.each do |val| %>
+    <%= val.content %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_word_path(@word) %> |

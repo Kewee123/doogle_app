@@ -9,6 +9,8 @@ class WordsController < ApplicationController
 
   # GET /words/1
   def show
+    @word = Word.find(params[:id])
+    @definitions = @word.definition.all
   end
 
   # GET /words/new
