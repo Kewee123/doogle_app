@@ -3,8 +3,9 @@ class WordsController < ApplicationController
 
   # GET /words
   def index
-    @words = Word.all
-  end
+    @words = Word.all  # retrieve a list of all the users from the database and then places them in the variable @users 
+    #Variables that start with the @ sign, called instance variables, are automatically available in the views
+  end 
 
   # GET /words/1
   def show
