@@ -6,12 +6,15 @@
   <br>
   <strong> Definitions </strong>
   
-
-  
   <%  @definitions.each do |val| %>
-    <%= val.content %>
+  <ul>
+    <li>
+      <%= val.content %>
+    </li> 
+  </ul>
   <% end %>
 </p>
 
 <%= link_to 'Edit', edit_word_path(@word) %> |
-<%= link_to 'Back', words_path %>
+<%= link_to 'Back', words_path %> |
+<%= link_to 'Add Definition', definitions_path %>
