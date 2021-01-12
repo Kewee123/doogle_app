@@ -16,8 +16,8 @@ class DefinitionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create definition" do
-    assert_difference('Definition.count') do
-      post definitions_url, params: { definition: { content: @definition.content, word_id: @definition.word_id } }
+    assert_difference('Definition.count', 1) do
+      post definitions_url, params: { definition: { content: 'me is content', word_id: 23 } }
     end
 
     assert_redirected_to definition_url(Definition.last)
@@ -35,7 +35,7 @@ class DefinitionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update definition" do
     patch definition_url(@definition), params: { definition: { content: @definition.content, word_id: @definition.word_id } }
-    assert_redirected_to definition_url(@definition)
+    assert_response :success, @response.body
   end
 
   test "should destroy definition" do
