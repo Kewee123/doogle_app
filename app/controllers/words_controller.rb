@@ -2,7 +2,7 @@ class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   
   def search
-    @word = Word.find(params[:id])
+    @word = Word.find(params[:name])
     @definitions = @word.definition.all
     render json: @word
   end
@@ -31,6 +31,8 @@ class WordsController < ApplicationController
   # POST /words
   def create
     @word = Word.new(word_params)
+    puts word_params
+    
 
     if @word.save
       redirect_to @word, notice: 'Word was successfully created.'
