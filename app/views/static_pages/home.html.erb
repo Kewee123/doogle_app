@@ -9,7 +9,7 @@
 
 
 <%= form_tag("/api/words", method: "get") do %>
-  <%= label_tag(:q, "Search for:") %>
-  <%= text_field_tag(:q) %>
+  <%= label_tag(:id, "Search for:") %>
+  <%= text_field_tag(:id) %>
   <%= submit_tag("Search") %>
 <% end %>

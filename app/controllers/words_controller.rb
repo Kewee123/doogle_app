@@ -2,7 +2,9 @@ class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   
   def search
-    render :inline => "<%= 'hello , ' * 3 + 'again' %>"
+    @word = Word.find(params[:id])
+    @definitions = @word.definition.all
+    render json: @word
   end
 
   # GET /words
