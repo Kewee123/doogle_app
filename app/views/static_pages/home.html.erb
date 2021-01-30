@@ -6,3 +6,10 @@
   Add input box here - and logo
   Also add react here
 </p>
+
+
+<%= form_tag("/api/words", method: "get") do %>
+  <%= label_tag(:q, "Search for:") %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("Search") %>
+<% end %>

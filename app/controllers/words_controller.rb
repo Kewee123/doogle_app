@@ -1,5 +1,9 @@
 class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
+  
+  def search
+    render :inline => "<%= 'hello , ' * 3 + 'again' %>"
+  end
 
   # GET /words
   def index
