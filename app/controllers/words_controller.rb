@@ -2,9 +2,9 @@ class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   
   def search
-    @word = Word.where(name: params[:id])
-    pp @word
-    render json: @word
+    @word = Word.where(name: params[:id]).first # returns a the first record of a relation
+    @definitions = Definition.where(word_id: @word.id)
+    render json: @definitions
   end
 
   # GET /words
