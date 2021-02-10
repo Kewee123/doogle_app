@@ -2,8 +2,8 @@ class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   
   def search
-    @word = Word.find(params[:name])
-    @definitions = @word.definition.all
+    @word = Word.where(name: params[:id])
+    pp @word
     render json: @word
   end
 
