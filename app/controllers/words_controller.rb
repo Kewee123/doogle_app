@@ -3,10 +3,10 @@ require 'net/http'
 class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   
-  def api_request
-    
-    uri = URI('http://example.com/index.html')
-    params = { :limit => 10, :page => 3 }
+  def api_request(word)
+    api_key = 'cab72891-f003-43ef-a983-253666d45082';
+    uri = URI('www.dictionaryapi.com/api/v3/references/collegiate/json/')
+    params = { :word => word, :key => api_key }
     uri.query = URI.encode_www_form(params)
     
     res = Net::HTTP.get_response(uri)
@@ -19,8 +19,18 @@ class WordsController < ApplicationController
   end
   
   def search
-    @word = Word.where(name: params[:id]).first # returns a the first record of a relation
-    @definitions = Definition.where(word_id: @word.id)
+    @word = Word.where(name: params[:id]).first # returns a the first record of a relation or nil if DNE
+    pp '*************'
+    pp @word
+    pp '*************'
+    
+    if @word == NIL # can't find word in dictionary
+      return render plain: "no word in dictionary"
+    end
+    
+    @definitions = Definition.where(word_id: @word.id) #
+    
+    
     render json: @definitions
   end
 
