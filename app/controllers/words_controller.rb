@@ -5,12 +5,19 @@ class WordsController < ApplicationController
   
   def api_request(word)
     api_key = 'cab72891-f003-43ef-a983-253666d45082';
-    uri = URI('www.dictionaryapi.com/api/v3/references/collegiate/json/')
+    uri = URI('https://www.dictionaryapi.com/api/v3/references/collegiate/json/')
     params = { :word => word, :key => api_key }
     uri.query = URI.encode_www_form(params)
     
+    pp "^^^^^^^^^^^^^^^^^^"
+    puts uri
+    pp "^^^^^^^^^^^^^^^^^^"
+    
     res = Net::HTTP.get_response(uri)
+    
+    pp "%%%%%%%%%%%%%%%%%%%%"
     puts res.body if res.is_a?(Net::HTTPSuccess)
+    pp "%%%%%%%%%%%%%%%%%%%%"
     #https://www.dictionaryapi.com/api/v3/references/collegiate/json/voluminous?key=your-api-key
     #http://www.dictionaryapi.com/api/v1/references/collegiate/xml/ API to retrieve the definition(s).  
     #Our API key for this API is cab72891-f003-43ef-a983-253666d45082.  
@@ -20,16 +27,17 @@ class WordsController < ApplicationController
   
   def search
     @word = Word.where(name: params[:id]).first # returns a the first record of a relation or nil if DNE
+    
     pp '*************'
     pp @word
     pp '*************'
     
-    if @word == NIL # can't find word in dictionary
+    if @word.nil? # can't find word in dictionary
+      api_request(params[:id])
       return render plain: "no word in dictionary"
     end
     
-    @definitions = Definition.where(word_id: @word.id) #
-    
+    @definitions = Definition.where(word_id: @word.id) 
     
     render json: @definitions
   end
