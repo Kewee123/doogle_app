@@ -1,5 +1,22 @@
+require 'net/http'
+
 class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
+  
+  def api_request
+    
+    uri = URI('http://example.com/index.html')
+    params = { :limit => 10, :page => 3 }
+    uri.query = URI.encode_www_form(params)
+    
+    res = Net::HTTP.get_response(uri)
+    puts res.body if res.is_a?(Net::HTTPSuccess)
+    #https://www.dictionaryapi.com/api/v3/references/collegiate/json/voluminous?key=your-api-key
+    #http://www.dictionaryapi.com/api/v1/references/collegiate/xml/ API to retrieve the definition(s).  
+    #Our API key for this API is cab72891-f003-43ef-a983-253666d45082.  
+    #For more information on this API see www.dictionaryapi.com.  
+    #Login details are geminispammer@gmail.com and the password is the project password.
+  end
   
   def search
     @word = Word.where(name: params[:id]).first # returns a the first record of a relation
@@ -66,4 +83,5 @@ class WordsController < ApplicationController
     def word_params
       params.require(:word).permit(:name)
     end
+
 end
