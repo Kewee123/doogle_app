@@ -1,12 +1,14 @@
 require 'net/http'
+require 'json'
 
 class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   
   def api_request(word)
     api_key = 'cab72891-f003-43ef-a983-253666d45082';
-    uri = URI('https://www.dictionaryapi.com/api/v3/references/collegiate/json/')
-    params = { :word => word, :key => api_key }
+    url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word;
+    uri = URI(url)
+    params = {:key => api_key }
     uri.query = URI.encode_www_form(params)
     
     pp "^^^^^^^^^^^^^^^^^^"
@@ -16,8 +18,11 @@ class WordsController < ApplicationController
     res = Net::HTTP.get_response(uri)
     
     pp "%%%%%%%%%%%%%%%%%%%%"
+    pp "it me response"
+    pp res.body
     puts res.body if res.is_a?(Net::HTTPSuccess)
-    pp "%%%%%%%%%%%%%%%%%%%%"
+    
+    return res.body
     #https://www.dictionaryapi.com/api/v3/references/collegiate/json/voluminous?key=your-api-key
     #http://www.dictionaryapi.com/api/v1/references/collegiate/xml/ API to retrieve the definition(s).  
     #Our API key for this API is cab72891-f003-43ef-a983-253666d45082.  
@@ -33,8 +38,10 @@ class WordsController < ApplicationController
     pp '*************'
     
     if @word.nil? # can't find word in dictionary
-      api_request(params[:id])
-      return render plain: "no word in dictionary"
+      new_definitions = api_request(params[:id])
+      json_new = JSON.pretty_generate(new_definitions)
+      puts json_new
+      return render json: json_new
     end
     
     @definitions = Definition.where(word_id: @word.id) 
