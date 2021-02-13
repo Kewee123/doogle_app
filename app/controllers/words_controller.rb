@@ -4,6 +4,17 @@ require 'json'
 class WordsController < ApplicationController
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   
+  def create_new_word_and_add_definition(word)
+    pp "it me ur pal"
+    puts word
+    
+    @word = Word.new({"name": word})
+    @word.save
+    pp @word
+    
+  end
+  
+  
   def api_request(word)
     api_key = 'cab72891-f003-43ef-a983-253666d45082';
     url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word;
@@ -39,9 +50,10 @@ class WordsController < ApplicationController
     
     if @word.nil? # can't find word in dictionary
       new_definitions = api_request(params[:id])
-      json_new = JSON.pretty_generate(new_definitions)
-      puts json_new
-      return render json: json_new
+      obj = JSON.parse(new_definitions)
+      puts obj[0]["shortdef"]
+      create_new_word_and_add_definition(params[:id])
+      return render json: obj
     end
     
     @definitions = Definition.where(word_id: @word.id) 
