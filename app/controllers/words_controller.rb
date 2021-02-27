@@ -2,16 +2,15 @@ require 'net/http'
 require 'json'
 
 class WordsController < ApplicationController
+  include DefinitionsHelper
+  
   before_action :set_word, only: [:show, :edit, :update, :destroy]
   
-  def create_new_word_and_add_definition(word)
-    pp "it me ur pal"
-    puts word
-    
+  def create_new_word_and_add_definition(word, definitions)
     @word = Word.new({"name": word})
     @word.save
-    pp @word
-    
+    pp definitions
+    create_definitions(definitions)
   end
   
   
@@ -22,16 +21,9 @@ class WordsController < ApplicationController
     params = {:key => api_key }
     uri.query = URI.encode_www_form(params)
     
-    pp "^^^^^^^^^^^^^^^^^^"
-    puts uri
-    pp "^^^^^^^^^^^^^^^^^^"
-    
     res = Net::HTTP.get_response(uri)
     
-    pp "%%%%%%%%%%%%%%%%%%%%"
-    pp "it me response"
-    pp res.body
-    puts res.body if res.is_a?(Net::HTTPSuccess)
+    #puts res.body if res.is_a?(Net::HTTPSuccess)
     
     return res.body
     #https://www.dictionaryapi.com/api/v3/references/collegiate/json/voluminous?key=your-api-key
@@ -44,15 +36,11 @@ class WordsController < ApplicationController
   def search
     @word = Word.where(name: params[:id]).first # returns a the first record of a relation or nil if DNE
     
-    pp '*************'
-    pp @word
-    pp '*************'
-    
     if @word.nil? # can't find word in dictionary
       new_definitions = api_request(params[:id])
       obj = JSON.parse(new_definitions)
-      puts obj[0]["shortdef"]
-      create_new_word_and_add_definition(params[:id])
+      short_definitions = obj[0]["shortdef"]
+      create_new_word_and_add_definition(params[:id], short_definitions)
       return render json: obj
     end
     
