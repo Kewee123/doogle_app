@@ -1,14 +1,14 @@
+<!--  Path: app/views/layouts/application.html.erb  -->
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= yield(:title) %> | Doogle App</title>
-    <meta charset="utf-8">
+    <title>RailsReactWebpacker</title>
     <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all',
-                                           'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- Following will make the react components availabe to our layout -->
+    <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>

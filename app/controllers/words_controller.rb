@@ -60,12 +60,11 @@ class WordsController < ApplicationController
       else
         return render json: "Failure to add new word"
       end
-      
     end
     
     @definitions = Definition.where(word_id: @word.id) #you can find it in the dictionary here - return it
     
-    render json: @definitions
+    return render json: @definitions
   end
 
   # GET /words

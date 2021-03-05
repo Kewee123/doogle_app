@@ -12,6 +12,7 @@ gem 'webmock', '~> 3.11'
 gem 'bootsnap'
 gem 'webpacker'
 gem 'hirb', '~> 0.7.3'
+gem 'react-rails'
 
 group :development, :test do
   gem 'sqlite3', '1.4.2'
