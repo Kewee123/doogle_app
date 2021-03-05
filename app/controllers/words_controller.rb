@@ -23,14 +23,7 @@ class WordsController < ApplicationController
     
     res = Net::HTTP.get_response(uri)
     
-    #puts res.body if res.is_a?(Net::HTTPSuccess)
-    
     return res.body
-    #https://www.dictionaryapi.com/api/v3/references/collegiate/json/voluminous?key=your-api-key
-    #http://www.dictionaryapi.com/api/v1/references/collegiate/xml/ API to retrieve the definition(s).  
-    #Our API key for this API is cab72891-f003-43ef-a983-253666d45082.  
-    #For more information on this API see www.dictionaryapi.com.  
-    #Login details are geminispammer@gmail.com and the password is the project password.
   end
   
   def search
@@ -39,9 +32,20 @@ class WordsController < ApplicationController
     if @word.nil? # can't find word in dictionary
       new_definitions = api_request(params[:id])
       obj = JSON.parse(new_definitions)
-      short_definitions = obj[0]["shortdef"]
+      
+      puts "#" * 50
+      short_definitions = ""
+      obj.each {|key| 
+        if key["meta"]["id"] == params[:id]
+          puts "word: #{key["meta"]["id"]} short def:#{key["shortdef"]}\n\n"
+          short_definitions = key["shortdef"]
+        end
+      }
+      puts "#" * 50
+      
       create_new_word_and_add_definition(params[:id], short_definitions)
-      return render json: obj
+      
+      return render json: "here"
     end
     
     @definitions = Definition.where(word_id: @word.id) 
