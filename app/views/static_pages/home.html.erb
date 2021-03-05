@@ -1,15 +1,25 @@
-<% provide(:title, "Home") %>
-<h1>Doogle App</h1>
-<p>
-  
-  TODO:
-  Add input box here - and logo
-  Also add react here
-</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= yield(:title) %> | Doogle App</title>
+    <meta charset="utf-8">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
+    <%= stylesheet_link_tag 'application', media: 'all',
+                                           'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'hello_react' %>
+    
+  </head>
 
-<%= form_tag("/api/words", method: "get") do %>
-  <%= label_tag(:id, "Search for:") %>
-  <%= text_field_tag(:id) %>
-  <%= submit_tag("Search") %>
-<% end %>
+  <body>
+    <%= form_tag("/api/words", method: "get") do %>
+    <%= label_tag(:id, "Search for:") %>
+    <%= text_field_tag(:id) %>
+    <%= submit_tag("Search") %>
+    <% end %>
+    
+    <%= react_component 'GreetUser', name: 'Maung' %>
+
+  </body>
+</html>
