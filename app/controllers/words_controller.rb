@@ -9,8 +9,17 @@ class WordsController < ApplicationController
   def create_new_word_and_add_definition(word, definitions)
     @word = Word.new({"name": word})
     @word.save
+    pp @word.id
+    puts "!" * 50
     pp definitions
-    create_definitions(definitions)
+    
+    returnValue = create_definition(@word.id, definitions)
+    
+    if returnValue == 1
+      return 1
+    else 
+      return 0
+    end
   end
   
   
@@ -43,12 +52,18 @@ class WordsController < ApplicationController
       }
       puts "#" * 50
       
-      create_new_word_and_add_definition(params[:id], short_definitions)
+      returnValue = create_new_word_and_add_definition(params[:id], short_definitions) 
       
-      return render json: "here"
+      
+      if returnValue == 1
+        return render json: "Successfully added new word"
+      else
+        return render json: "Failure to add new word"
+      end
+      
     end
     
-    @definitions = Definition.where(word_id: @word.id) 
+    @definitions = Definition.where(word_id: @word.id) #you can find it in the dictionary here - return it
     
     render json: @definitions
   end

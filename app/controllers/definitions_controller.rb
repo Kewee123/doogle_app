@@ -1,5 +1,5 @@
 class DefinitionsController < ApplicationController
-  before_action :set_definition, only: [:show, :edit, :update, :destroy]
+  before_action :set_definition, only: [:show, :edit, :update, :destroy, :create]
 
   # GET /definitions
   def index
@@ -21,6 +21,7 @@ class DefinitionsController < ApplicationController
 
   # POST /definitions
   def create
+    pp definition_params
     @definition = Definition.new(definition_params)
 
     if @definition.save
