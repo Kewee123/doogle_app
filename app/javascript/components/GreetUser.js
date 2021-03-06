@@ -12,7 +12,7 @@ class GreetUser extends React.Component {
     return (
     <div className="home__body">
       <img
-          src="/doogle-app/app/assets/images/doogleImage.png" 
+          src="/assets/doogleImage.png" 
           alt="logo"
         />
      <form className="search">
