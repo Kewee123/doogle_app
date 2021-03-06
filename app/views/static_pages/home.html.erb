@@ -8,8 +8,6 @@
 
     <%= stylesheet_link_tag 'application', media: 'all',
                                            'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'hello_react' %>
-    
   </head>
 
   <body>
@@ -19,7 +17,7 @@
     <%= submit_tag("Search") %>
     <% end %>
     
-    <%= react_component 'GreetUser', name: 'Maung' %>
+    <%= react_component 'GreetUser'%>
 
   </body>
 </html>
