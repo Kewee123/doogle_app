@@ -5,9 +5,28 @@ import axios from 'axios'
 import SearchIcon from "@material-ui/icons/Search";
 import MicIcon from "@material-ui/icons/Mic";
 import { Button } from "@material-ui/core";
-import './GreetUser.css'
+//import '../assets/stylesheets/GreetUser.css';
 
 class GreetUser extends React.Component {
+  state = {
+    name: '',
+  }
+  
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const user = {
+      name: this.state.name
+    };
+
+    axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+  }
+
+  
   render () {
     return (
     <div className="home__body">
@@ -15,7 +34,7 @@ class GreetUser extends React.Component {
           src="/assets/doogleImage.png" 
           alt="logo"
         />
-     <form className="search">
+     <form className="search" onSubmit={this.handleSubmit}>
       <div className="search__input">
         <SearchIcon className="search__inputIcon" />
         <input />
