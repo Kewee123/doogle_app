@@ -60,11 +60,15 @@ class GreetUser extends React.Component {
     if(this.state.returnedData) {
       if(this.state.type == 'array'){
         results = this.state.returnedData.map(item => {
+          console.log(item);
+          return(
           <ListItem> 
             <ListItemText primary={item}/>
-          </ListItem>
+          </ListItem>);
         })
+        console.log(results);
         results = <List>{results}</List>
+        console.log(results);
       } else {
         results = <div>{this.state.returnedData}</div>
       }
