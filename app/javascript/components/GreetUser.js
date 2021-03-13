@@ -4,6 +4,10 @@ import PropTypes from "prop-types";
 import axios from 'axios'
 import SearchIcon from "@material-ui/icons/Search";
 import MicIcon from "@material-ui/icons/Mic";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import { Button } from "@material-ui/core";
 
 class GreetUser extends React.Component {
@@ -12,6 +16,7 @@ class GreetUser extends React.Component {
     this.state = {
       searchString: '',
       returnedData: '',
+      type: '',
     };
     
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,23 +41,42 @@ class GreetUser extends React.Component {
         
         if(typeof res.data == 'object'){
           console.log(res.data[0]);
-          self.setState({returnedData: res.data[0].content});
+          console.log(res.data[0].content.replace("[","").replace("]", "").split(","))
+          let parsedData = res.data[0].content.split(",")
+          
+          self.setState({returnedData:parsedData, type: 'array'});
           console.log('hello');
         } else {
-          self.setState({returnedData: res.data});
+          self.setState({returnedData: res.data, type: 'string'});
         }
     })
   }
   
   render () {
     console.log(this.state);
+    
+    var results = null;
+    
+    if(this.state.returnedData) {
+      if(this.state.type == 'array'){
+        results = this.state.returnedData.map(item => {
+          <ListItem> 
+            <ListItemText primary={item}/>
+          </ListItem>
+        })
+        results = <List>{results}</List>
+      } else {
+        results = <div>{this.state.returnedData}</div>
+      }
+    }     
+    
     return (
     <div className="home__body">
       <img
           src={"/assets/doogleImage.png"}
           alt="logo"
         />
-      {this.state.returnedData ? <div> {this.state.returnedData} </div> : null} 
+      {results} 
      <form className="search" onSubmit={this.handleSubmit}>
       <div className="search__input">
         <SearchIcon className="search__inputIcon" />
