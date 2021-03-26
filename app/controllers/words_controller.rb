@@ -36,9 +36,11 @@ class WordsController < ApplicationController
     res = Net::HTTP.get_response(uri)
     
     if res.body.empty?
+      puts "i was empty"
       return 0;
     end
     
+    put "I had stuff"
     return res.body
   end
 
@@ -56,6 +58,7 @@ class WordsController < ApplicationController
       
       obj = JSON.parse(new_definitions)
       if obj.is_a?(Array) #handles the case where user passes in a mispelled word
+        puts "I was mispelled"
         return render json: "Failure to add new word. Please try again."
       end 
   
