@@ -27,33 +27,41 @@ class WordsController < ApplicationController
     api_key = 'cab72891-f003-43ef-a983-253666d45082';
     url = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word;
     uri = URI(url)
+    
     params = {:key => api_key }
     uri.query = URI.encode_www_form(params)
-    
+    puts uri
     res = Net::HTTP.get_response(uri)
     
     return res.body
   end
   
   def search
-    @word = Word.where(name: params[:id]).first # returns a the first record of a relation or nil if DNE
+    @word = Word.where(name: params[:id]).first # returns a the first record of a relation or nil if DNE'
+    puts @word
     
     if @word.nil? # can't find word in dictionary
       new_definitions = api_request(params[:id])
       obj = JSON.parse(new_definitions)
-      
+      puts "\n\n"
+      ##puts JSON.pretty_generate(obj)
+      puts "\n\n"
       puts "#" * 50
       short_definitions = ""
       obj.each {|key| 
-        if key["meta"]["id"] == params[:id]
-          puts "word: #{key["meta"]["id"]} short def:#{key["shortdef"]}\n\n"
+        if key["meta"]["stems"].include?(params[:id])
+          puts "\n\nword: #{key["meta"]["id"]} short def:#{key["shortdef"]}\n\n\n\n"
           short_definitions = key["shortdef"]
+          break;
         end
+        break;
       }
       puts "#" * 50
-      
+      puts "\n\n"
+      puts "$" * 50
       returnValue = create_new_word_and_add_definition(params[:id], short_definitions) 
-      
+      puts "I'm passing in #{short_definitions}\n"
+      puts "$" * 50
       
       if returnValue == 1
         return render json: "Successfully added new word"

@@ -1,6 +1,8 @@
 module DefinitionsHelper
     def create_definition(word_id,definitions)
+      puts "\n"
       puts "*" * 50
+      puts "Definitions_helper"
       pp definitions
       puts "*" * 50
    

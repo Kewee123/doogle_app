@@ -38,10 +38,9 @@ class GreetUser extends React.Component {
     axios.get(`/api/words`, { params:{id: searchStr} })
       .then(res => {
         console.log(res.status);
+        console.log(res);
         
         if(typeof res.data == 'object'){
-          console.log(res.data[0]);
-          console.log(res.data[0].content.replace("[","").replace("]", "").split(","))
           let parsedData = res.data[0].content.split(",")
           
           self.setState({returnedData:parsedData, type: 'array'});
@@ -49,6 +48,8 @@ class GreetUser extends React.Component {
         } else {
           self.setState({returnedData: res.data, type: 'string'});
         }
+    }).catch(err =>{
+      console.log("error is " + err);
     })
   }
   
