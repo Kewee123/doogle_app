@@ -40,7 +40,7 @@ class WordsController < ApplicationController
       return 0;
     end
     
-    put "I had stuff"
+    puts "I had stuff"
     return res.body
   end
 
