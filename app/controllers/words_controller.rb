@@ -31,42 +31,60 @@ class WordsController < ApplicationController
     params = {:key => api_key }
     uri.query = URI.encode_www_form(params)
     puts uri
+    
+  
     res = Net::HTTP.get_response(uri)
+    
+    if res.body.empty?
+      return 0;
+    end
     
     return res.body
   end
-  
+
   def search
     @word = Word.where(name: params[:id]).first # returns a the first record of a relation or nil if DNE'
     puts @word
     
     if @word.nil? # can't find word in dictionary
       new_definitions = api_request(params[:id])
+      puts new_definitions
+      if new_definitions == 0
+          return render json: "Failure to add new word. Please try again."
+      end
+      
+      
       obj = JSON.parse(new_definitions)
-      puts "\n\n"
-      ##puts JSON.pretty_generate(obj)
-      puts "\n\n"
+      if obj.is_a?(Array) #handles the case where user passes in a mispelled word
+        return render json: "Failure to add new word. Please try again."
+      end 
+  
+      puts "#" * 50
+      puts obj;
       puts "#" * 50
       short_definitions = ""
+      found = 0;
       obj.each {|key| 
         if key["meta"]["stems"].include?(params[:id])
           puts "\n\nword: #{key["meta"]["id"]} short def:#{key["shortdef"]}\n\n\n\n"
           short_definitions = key["shortdef"]
-          break;
+          found = 1;
         end
-        break;
+        if found
+          break;
+        end;
       }
-      puts "#" * 50
-      puts "\n\n"
-      puts "$" * 50
-      returnValue = create_new_word_and_add_definition(params[:id], short_definitions) 
-      puts "I'm passing in #{short_definitions}\n"
-      puts "$" * 50
+      puts found;
+      if found
+        returnValue = create_new_word_and_add_definition(params[:id], short_definitions) 
+      else
+        returnValue = 0
+      end
       
       if returnValue == 1
         return render json: "Successfully added new word"
       else
-        return render json: "Failure to add new word"
+        return render json: "Failure to add new word. Please try again."
       end
     end
     

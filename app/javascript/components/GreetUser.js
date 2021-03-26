@@ -21,6 +21,7 @@ class GreetUser extends React.Component {
     
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.parseResponse = this.parseResponse.bind(this);
   }
   
   handleChange(event) {
@@ -34,23 +35,38 @@ class GreetUser extends React.Component {
     event.preventDefault();
     const searchStr = this.state.searchString;
     const self = this;
+    const parseResponse = this.parseResponse;
 
     axios.get(`/api/words`, { params:{id: searchStr} })
       .then(res => {
         console.log(res.status);
         console.log(res);
+        console.log("the above is the response\n");
         
         if(typeof res.data == 'object'){
           let parsedData = res.data[0].content.split(",")
           
           self.setState({returnedData:parsedData, type: 'array'});
           console.log('hello');
+          parseResponse();
         } else {
           self.setState({returnedData: res.data, type: 'string'});
         }
     }).catch(err =>{
       console.log("error is " + err);
     })
+  }
+  
+  parseResponse(){
+    let definitions = this.state.returnedData;
+    const regex = /[\[\]]/g;
+    
+    definitions.forEach((item, index)=>{
+      item = item.replace(regex, "");
+      definitions[index] = item;
+    })
+   
+    this.setState({returnedData: definitions});
   }
   
   render () {
@@ -63,15 +79,16 @@ class GreetUser extends React.Component {
         results = this.state.returnedData.map(item => {
           console.log(item);
           return(
-          <ListItem> 
+          <ListItem key={item}> 
             <ListItemText primary={item}/>
           </ListItem>);
         })
-        console.log(results);
+        
         results = <List>{results}</List>
         console.log(results);
+        console.log('here');
       } else {
-        results = <div>{this.state.returnedData}</div>
+        results = <div className="success">{this.state.returnedData}</div>
       }
     }     
     

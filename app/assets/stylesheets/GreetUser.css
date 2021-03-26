@@ -126,3 +126,22 @@
 }
 
 }
+
+.MuiList-root {
+  align-self: center;
+  background-color: #424242;
+  width: 100%;
+  max-width: 360px;
+}
+
+.MuiListItemText-root{
+  color: #fff;  
+}
+
+.success {
+  align-self: center;
+  background-color: #424242;
+  width: 100%;
+  max-width: 360px;
+  color: #fff;  
+}
