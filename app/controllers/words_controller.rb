@@ -57,14 +57,18 @@ class WordsController < ApplicationController
       
       
       obj = JSON.parse(new_definitions)
-      if obj.is_a?(Array) #handles the case where user passes in a mispelled word
+      puts "#" * 50
+      puts obj;
+      puts obj.class
+      puts obj[0];
+      puts "#" * 50
+    
+      if !obj[0].is_a?(Object) #handles the case where user passes in a mispelled word
         puts "I was mispelled"
         return render json: "Failure to add new word. Please try again."
       end 
   
-      puts "#" * 50
-      puts obj;
-      puts "#" * 50
+     
       short_definitions = ""
       found = 0;
       obj.each {|key| 
