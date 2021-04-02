@@ -52,23 +52,25 @@ class WordsController < ApplicationController
       new_definitions = api_request(params[:id])
       puts new_definitions
       if new_definitions == 0
-          return render json: "Failure to add new word. Please try again."
+          return render json: "Failure to add new word because that word doesn't exist in the dictionary. Please try again."
       end
       
       
       obj = JSON.parse(new_definitions)
       puts "#" * 50
       puts obj;
+      puts "obj class below"
       puts obj.class
+      puts "obj[0] below"
       puts obj[0];
+      puts obj[0].class;
       puts "#" * 50
     
-      if !obj[0].is_a?(Object) #handles the case where user passes in a mispelled word
+      if !obj[0].is_a?(Hash) #handles the case where user passes in a mispelled word
         puts "I was mispelled"
-        return render json: "Failure to add new word. Please try again."
+        return render json: "Failure to add new word because word wasn't found. Please try again."
       end 
-  
-     
+    
       short_definitions = ""
       found = 0;
       obj.each {|key| 
@@ -89,7 +91,7 @@ class WordsController < ApplicationController
       end
       
       if returnValue == 1
-        return render json: "Successfully added new word"
+        return render json: "Successfully added new word to the database."
       else
         return render json: "Failure to add new word. Please try again."
       end
