@@ -12,6 +12,7 @@ gem 'bootsnap'
 gem 'webpacker'
 gem 'hirb', '~> 0.7.3'
 gem 'react-rails'
+gem 'rails_admin', '~> 2.0'
 
 group :development, :test do
   gem 'sqlite3', '1.4.2'
