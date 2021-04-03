@@ -18,6 +18,9 @@ group :development, :test do
   gem 'sqlite3', '1.4.2'
   gem 'byebug',  '11.1.3', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rails_12factor'
+  gem 'rspec-rails', '~> 5.0.0'
+  gem 'capybara'
+  gem 'webdrivers',               '4.3.0'
 end
 
 group :development do
@@ -28,9 +31,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara',                 '3.32.2'
   gem 'selenium-webdriver',       '3.142.7'
-  gem 'webdrivers',               '4.3.0'
   gem 'rails-controller-testing', '1.0.4'
   gem 'minitest',                 '5.11.3'
   gem 'minitest-reporters',       '1.3.8'
