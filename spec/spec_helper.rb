@@ -21,6 +21,10 @@ require 'selenium-webdriver'
 Selenium::WebDriver::Chrome::Service.driver_path='/usr/bin/google-chrome-stable'
 options = Selenium::WebDriver::Chrome::Options.new
 options.add_argument('--headless')
+chromedriver_path = '/usr/bin/chromedriver'
+
+Selenium::WebDriver::Chrome.driver_path = chromedriver_path
+
 driver = Selenium::WebDriver.for :chrome, options: options
 
 Capybara.register_driver :selenium do |app|
