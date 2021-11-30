@@ -1,3 +1,5 @@
+App that simulates the search of Google and returns a list of definitions
+
 Live Url
 https://mysterious-plains-22315.herokuapp.com/
 
