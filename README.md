@@ -1,5 +1,12 @@
 App that simulates the search of Google and returns a list of definitions
 
+Made with
+  React
+  Ruby
+  Postgres(live), sqlite(local)
+  Rspec
+  RailsAdmin(to manage db)
+
 Live Url
 https://mysterious-plains-22315.herokuapp.com/
 
