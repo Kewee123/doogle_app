@@ -1,4 +1,4 @@
-App that simulates the search of Google and returns a list of definitions
+App that returns a list of definitions
 
 Made with
   React
